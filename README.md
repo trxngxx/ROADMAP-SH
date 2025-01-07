@@ -1,124 +1,131 @@
-# Log Archive Tool
+# Server Statistics Script
 
-Project URL: https://roadmap.sh/projects/log-archive-tool
+The project from: https://roadmap.sh/projects/server-stats
 
-A command-line tool to archive log files by compressing them into a dated tar.gz archive. This tool helps maintain system cleanliness while preserving logs for future reference.
+A Bash script that provides comprehensive server performance statistics for Linux systems. This script collects and displays various system metrics including CPU usage, memory utilization, disk space, and process information.
 
 ## Features
 
-- Archives logs from any specified directory
-- Creates compressed tar.gz archives with timestamp
-- Maintains an archive history log
-- Provides archive details (size, number of files)
-- Validates input directory and permissions
-- Creates dated archive names automatically
+- **CPU Usage Statistics**
+  - Total CPU usage percentage
+  - Current system load
+
+- **Memory Usage Information**
+  - Total available memory
+  - Used memory (with percentage)
+  - Free memory (with percentage)
+  - Buffer/Cache usage
+
+- **Disk Usage Details**
+  - Partition information
+  - Total, used, and free space for each partition
+  - Usage percentages
+
+- **Process Monitoring**
+  - Top 5 CPU-intensive processes
+  - Top 5 memory-intensive processes
+
+- **Additional System Information**
+  - Operating system version
+  - Kernel version
+  - System uptime
+  - Load averages
+  - Currently logged-in users
+  - Recent failed login attempts
 
 ## Requirements
 
-- Unix-like operating system (Linux, macOS)
+- Linux-based operating system
 - Bash shell
-- tar command-line utility (usually pre-installed)
+- Standard system utilities:
+  - `top`
+  - `ps`
+  - `free`
+  - `df`
+  - `who`
+  - `grep`
+  - `awk`
 
 ## Installation
 
-1. Download the script:
+1. Clone or download the script:
 ```bash
 curl -O https://github.com/trxngxx/ROADMAP-SH.git
 # or
 wget https://github.com/trxngxx/ROADMAP-SH.git
-```
+``` 
 
-2. Make it executable:
+2. Make the script executable:
 ```bash
-chmod +x log-archive
-```
-
-3. Optionally, move to system path:
-```bash
-sudo mv log-archive /usr/local/bin/
+chmod +x server-stats.sh
 ```
 
 ## Usage
 
-Basic usage:
+Simply run the script:
 ```bash
-./log-archive <log-directory>
+./server-stats.sh
 ```
 
-Example:
-```bash
-./log-archive /var/log
-```
-
-This will:
-1. Create an archive directory named `archived_logs` in the current directory
-2. Compress all files from the specified directory
-3. Name the archive with current timestamp (e.g., `logs_archive_20240107_123456.tar.gz`)
-4. Log the operation to `archive_history.log`
+The script will display all information in a formatted output to the terminal.
 
 ## Output Example
 
 ```
-Creating archive from /var/log...
-Successfully created archive: ./archived_logs/logs_archive_20240107_123456.tar.gz
+=== SERVER PERFORMANCE REPORT ===
+Time: 2025-01-07 10:30:45
+------------------------------------------------
 
-Archive details:
-Location: ./archived_logs/logs_archive_20240107_123456.tar.gz
-Size: 15M
-Files included: 47
+=== OPERATING SYSTEM INFO ===
+OS Version: Ubuntu 22.04.3 LTS
+Kernel: 5.15.0-56-generic
+Uptime: up 15 days, 7 hours, 23 minutes
+Load average: 1.15, 0.95, 0.78
+
+=== CPU STATISTICS ===
+CPU Usage: 25.8%
+
+=== MEMORY STATISTICS ===
+Total Memory: 16.0G
+Used: 8.2G (51%)
+Free: 4.8G (30%)
+Buffer/Cache: 3.0G
+
+...
 ```
-
-## Directory Structure
-
-After running the tool:
-```
-./archived_logs/
-├── logs_archive_20240107_123456.tar.gz
-├── logs_archive_20240107_234567.tar.gz
-└── archive_history.log
-```
-
-## Error Handling
-
-The script handles various error conditions:
-- Missing directory argument
-- Non-existent directory
-- Permission issues
-- Archive creation failures
-
-## Logging
-
-The tool maintains an archive history log (`archive_history.log`) containing:
-- Date and time of archive creation
-- Source directory
-- Archive filename
 
 ## Customization
 
 You can modify the script to:
-- Change the archive directory location
-- Modify the archive naming format
-- Add additional compression options
-- Include/exclude specific file patterns
+- Change the number of processes displayed (currently set to top 5)
+- Add additional system metrics
+- Modify the output format
+- Add custom monitoring parameters
+
+Edit the script file and adjust the relevant sections as needed.
 
 ## Troubleshooting
 
-Common issues and solutions:
+### Common Issues
 
 1. **Permission Denied**
    ```bash
-   Error: Cannot read directory '/var/log'. Please check permissions
+   bash: ./server-stats.sh: Permission denied
    ```
-   Solution: Run with sudo or ensure proper permissions
+   Solution: Ensure the script has execution permissions
    ```bash
-   sudo ./log-archive /var/log
+   chmod +x server-stats.sh
    ```
 
-2. **Directory Not Found**
-   ```bash
-   Error: Directory '/path/to/logs' does not exist
-   ```
-   Solution: Verify the directory path exists
+2. **Auth.log Not Found**
+   - This is normal on some distributions that use different logging systems
+   - The script will continue to function and display other metrics
+
+### Known Limitations
+
+- The script requires root/sudo access to read certain system files
+- Some statistics might not be available on all Linux distributions
+- Process statistics are point-in-time snapshots
 
 ## Contributing
 
@@ -130,10 +137,9 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Author
 
-[Your Name]
-[Your Contact Information]
+@trxngxx
 
 ## Acknowledgments
 
-- Inspired by Unix system administration needs
-- Thanks to the Unix/Linux community for robust command-line tools
+- Inspired by various system monitoring tools
+- Thanks to the Linux community for the robust command-line tools that make this possible
