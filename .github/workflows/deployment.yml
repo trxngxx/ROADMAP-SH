@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'github-actions/index.html'
+      - 'index.html'
 
 permissions:
   contents: read
