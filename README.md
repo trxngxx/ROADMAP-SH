@@ -1,6 +1,6 @@
 # GitHub Pages Deployment
 
-Project URL: https://roadmap.sh/projects/github-pages-deployment
+Project URL:   https://roadmap.sh/projects/github-actions-deployment-workflow
 
 A simple GitHub Actions workflow that automatically deploys a static website to GitHub Pages whenever changes are made to the index.html file.
 
