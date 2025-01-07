@@ -1,5 +1,7 @@
 # Server Statistics Script
 
+The project from: https://roadmap.sh/projects/server-stats
+
 A Bash script that provides comprehensive server performance statistics for Linux systems. This script collects and displays various system metrics including CPU usage, memory utilization, disk space, and process information.
 
 ## Features
@@ -48,10 +50,9 @@ A Bash script that provides comprehensive server performance statistics for Linu
 
 1. Clone or download the script:
 ```bash
-curl -O https://your-repository/server-stats.sh
+curl -O https://github.com/trxngxx/ROADMAP-SH.git
 # or
-wget https://your-repository/server-stats.sh
-```
+wget https://github.com/trxngxx/ROADMAP-SH.git
 
 2. Make the script executable:
 ```bash
