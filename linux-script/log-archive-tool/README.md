@@ -1,6 +1,7 @@
 # Log Archive Tool
 
-Project URL: https://roadmap.sh/projects/log-archive-tool
+Project URL:   https://roadmap.sh/projects/log-archive-tool
+
 
 A command-line tool to archive log files by compressing them into a dated tar.gz archive. This tool helps maintain system cleanliness while preserving logs for future reference.
 
