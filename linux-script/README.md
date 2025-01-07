@@ -53,6 +53,7 @@ A Bash script that provides comprehensive server performance statistics for Linu
 curl -O https://github.com/trxngxx/ROADMAP-SH.git
 # or
 wget https://github.com/trxngxx/ROADMAP-SH.git
+``` 
 
 2. Make the script executable:
 ```bash
