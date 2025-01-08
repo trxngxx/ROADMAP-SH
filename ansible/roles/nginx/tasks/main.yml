@@ -1,0 +1,23 @@
+- name: Install nginx
+  apt:
+    name: nginx
+    state: present
+
+- name: Configure nginx
+  template:
+    src: default.conf.j2
+    dest: /etc/nginx/sites-available/default
+  notify: restart nginx
+
+- name: Enable nginx site
+  file:
+    src: /etc/nginx/sites-available/default
+    dest: /etc/nginx/sites-enabled/default
+    state: link
+  notify: restart nginx
+
+- name: Allow HTTP through UFW
+  ufw:
+    rule: allow
+    port: "{{ nginx_port }}"
+    proto: tcp

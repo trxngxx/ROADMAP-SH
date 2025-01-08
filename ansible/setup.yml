@@ -1,0 +1,14 @@
+- name: Configure Linux server
+  hosts: webservers
+  become: yes
+  tags: always
+  
+  vars:
+    nginx_port: 80
+    app_directory: /var/www/html
+    
+  roles:
+    - { role: base, tags: ['base'] }
+    - { role: nginx, tags: ['nginx'] }
+    - { role: app, tags: ['app'] }
+    - { role: ssh, tags: ['ssh'] }
