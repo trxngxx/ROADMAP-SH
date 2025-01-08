@@ -1,5 +1,7 @@
 # File Integrity Checker
 
+Project URL: https://roadmap.sh/projects/file-integrity-checker
+
 A robust Python tool for monitoring and verifying file integrity using SHA-256 hashing. This tool helps detect unauthorized modifications to files and directories by maintaining and comparing hash signatures.
 
 ## Features
