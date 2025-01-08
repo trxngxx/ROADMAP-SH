@@ -1,93 +1,62 @@
-version: '3.8'
+version: "3.8"
 
 services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/app
+      - REDIS_HOST=redis
+    depends_on:
+      - mongo
+      - redis
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+  mongo:
+    image: mongo:5.0
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    configs:
+      - source: redis_config
+        target: /usr/local/etc/redis/redis.conf
+
   nginx:
-    build: ./nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
     ports:
       - "80:80"
     depends_on:
       - frontend
       - backend
-    networks:
-      - app-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.prod
-    environment:
-      - REACT_APP_API_URL=http://backend:3000
-    networks:
-      - app-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  backend:
-    build: ./backend
-    environment:
-      - MONGO_URI=mongodb://mongo:27017/app
-      - REDIS_URI=redis://redis:6379
-    depends_on:
-      - mongo
-      - redis
-    networks:
-      - app-network
-    volumes:
-      - ./logs:/app/logs
-    secrets:
-      - db_password
-      - redis_password
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  mongo:
-    image: mongo:latest
-    volumes:
-      - mongo-data:/data/db
-      - ./mongo/init.js:/docker-entrypoint-initdb.d/init.js:ro
-    networks:
-      - app-network
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME_FILE=/run/secrets/mongo_user
-      - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/mongo_password
-    secrets:
-      - mongo_user
-      - mongo_password
-
-  redis:
-    image: redis:alpine
-    volumes:
-      - redis-data:/data
-      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
-    networks:
-      - app-network
-    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
-
-networks:
-  app-network:
-    driver: bridge
 
 volumes:
-  mongo-data:
-  redis-data:
+  mongo_data:
+  redis_data:
 
-secrets:
-  db_password:
-    file: ./secrets/db_password.txt
-  redis_password:
-    file: ./secrets/redis_password.txt
-  mongo_user:
-    file: ./secrets/mongo_user.txt
-  mongo_password:
-    file: ./secrets/mongo_password.txt
+configs:
+  redis_config:
+    file: ./redis/redis.conf
