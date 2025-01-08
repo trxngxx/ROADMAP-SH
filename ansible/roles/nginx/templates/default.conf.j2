@@ -1,0 +1,9 @@
+server {
+    listen {{ nginx_port }};
+    server_name _;
+    root {{ app_directory }};
+    
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}

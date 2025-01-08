@@ -1,0 +1,12 @@
+- name: Create app directory
+  file:
+    path: "{{ app_directory }}"
+    state: directory
+    mode: '0755'
+
+- name: Download and extract website content
+  unarchive:
+    src: "{{ website_tarball }}"
+    dest: "{{ app_directory }}"
+    remote_src: yes
+  when: website_tarball is defined
