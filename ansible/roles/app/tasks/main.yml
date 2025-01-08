@@ -10,3 +10,10 @@
     dest: "{{ app_directory }}"
     remote_src: yes
   when: website_tarball is defined
+
+# Stretch goal implementation
+- name: Clone repository
+  git:
+    repo: "{{ repo_url }}"
+    dest: "{{ app_directory }}"
+  when: repo_url is defined
